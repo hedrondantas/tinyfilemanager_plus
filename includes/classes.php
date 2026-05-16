@@ -248,11 +248,21 @@ class FM_Config
     function save()
     {
         global $config_file;
-        $fm_file = is_readable($config_file) ? $config_file : __FILE__;
-        $var_name = '$CONFIG';
-        $var_value = var_export(json_encode($this->data), true);
-        $config_string = "<?php" . chr(13) . chr(10) . "//Default Configuration" . chr(13) . chr(10) . "$var_name = $var_value;" . chr(13) . chr(10);
+        $json = json_encode($this->data);
+
+        // Prefer root config.php — creates the file if it doesn't exist yet
+        $root_content = "<?php\n\$CONFIG = " . var_export($json, true) . ";\n";
+        if (@file_put_contents($config_file, $root_content) !== false) {
+            if (function_exists('opcache_invalidate')) {
+                opcache_invalidate($config_file, true);
+            }
+            return true;
+        }
+
+        // Fallback: rewrite the $CONFIG line inside includes/config.php
+        $fm_file = dirname(__FILE__) . '/config.php';
         if (is_writable($fm_file)) {
+            $config_string = "<?php" . chr(13) . chr(10) . "//Default Configuration" . chr(13) . chr(10) . '$CONFIG = ' . var_export($json, true) . ";" . chr(13) . chr(10);
             $lines = file($fm_file);
             if ($fh = @fopen($fm_file, "w")) {
                 @fputs($fh, $config_string, strlen($config_string));
@@ -260,7 +270,12 @@ class FM_Config
                     @fputs($fh, $lines[$x], strlen($lines[$x]));
                 }
                 @fclose($fh);
+                if (function_exists('opcache_invalidate')) {
+                    opcache_invalidate($fm_file, true);
+                }
+                return true;
             }
         }
+        return false;
     }
 }

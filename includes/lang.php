@@ -60,6 +60,7 @@
         $tr['en']['Move']           = 'Move';
         $tr['en']['Change']         = 'Change';
         $tr['en']['Settings']       = 'Settings';
+        $tr['en']['Settings could not be saved. Check file permissions.'] = 'Settings could not be saved. Check file permissions.';
         $tr['en']['Language']       = 'Language';
         $tr['en']['ErrorReporting'] = 'Error Reporting';
         $tr['en']['ShowHiddenFiles'] = 'Show Hidden Files';

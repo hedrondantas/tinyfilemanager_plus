@@ -104,10 +104,6 @@ if ((isset($_SESSION[FM_SESSION_ID]['logged'], $auth_users[$_SESSION[FM_SESSION_
             $cfg->data['show_hidden'] = $shf;
             $show_hidden_files = $shf;
         }
-        if ($cfg->data['show_hidden'] != $shf) {
-            $cfg->data['show_hidden'] = $shf;
-            $show_hidden_files = $shf;
-        }
         if ($cfg->data['hide_Cols'] != $hco) {
             $cfg->data['hide_Cols'] = $hco;
             $hide_Cols = $hco;
@@ -116,8 +112,8 @@ if ((isset($_SESSION[FM_SESSION_ID]['logged'], $auth_users[$_SESSION[FM_SESSION_
             $cfg->data['theme'] = $te3;
             $theme = $te3;
         }
-        $cfg->save();
-        echo true;
+        echo $cfg->save() ? '1' : '0';
+        exit();
     }
 
     // new password hash

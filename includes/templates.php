@@ -1248,8 +1248,10 @@ function fm_show_header_login()
                     url: form.attr('action'),
                     data: form.serialize() + "&token=" + window.csrf + "&ajax=" + true,
                     success: function(data) {
-                        if (data) {
+                        if (data.trim() === '1') {
                             window.location.reload();
+                        } else {
+                            toast('<p class="text-danger"><?php echo lng("Settings could not be saved. Check file permissions.") ?></p>');
                         }
                     }
                 });
