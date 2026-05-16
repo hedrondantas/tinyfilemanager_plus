@@ -329,9 +329,6 @@ function fm_is_exclude_items($name, $path)
     }
 
     $exclude_items = FM_EXCLUDE_ITEMS;
-    if (version_compare(PHP_VERSION, '7.0.0', '<')) {
-        $exclude_items = unserialize($exclude_items);
-    }
     if (!in_array($name, $exclude_items) && !in_array("*.$ext", $exclude_items) && !in_array($path, $exclude_items)) {
         return true;
     }
@@ -1031,7 +1028,6 @@ function fm_download_file($fileLocation, $fileName, $chunkSize  = 1024)
         return (false);
     }
 
-    @ini_set('magic_quotes_runtime', 0);
     $fp = fopen("$fileLocation", "rb");
 
     if ($fp === false) {

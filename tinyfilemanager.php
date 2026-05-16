@@ -68,9 +68,6 @@ if (defined('FM_EMBED')) {
     date_default_timezone_set($default_timezone);
 
     ini_set('default_charset', 'UTF-8');
-    if (version_compare(PHP_VERSION, '5.6.0', '<') && function_exists('mb_internal_encoding')) {
-        mb_internal_encoding('UTF-8');
-    }
     if (function_exists('mb_regex_encoding')) {
         mb_regex_encoding('UTF-8');
     }
@@ -230,7 +227,7 @@ if ($use_auth) {
                                     <div class="mb-3">
                                         <?php fm_show_message(); ?>
                                     </div>
-                                    <input type="hidden" name="token" value="<?php echo htmlentities($_SESSION['token']); ?>" />
+                                    <input type="hidden" name="token" value="<?php echo htmlspecialchars($_SESSION['token'], ENT_QUOTES, 'UTF-8'); ?>" />
                                     <div class="mb-3">
                                         <button type="submit" class="btn btn-success btn-block w-100 mt-4" role="button">
                                             <?php echo lng('Login'); ?>
@@ -272,7 +269,7 @@ defined('FM_ROOT_PATH') || define('FM_ROOT_PATH', $root_path);
 defined('FM_LANG') || define('FM_LANG', $lang);
 defined('FM_FILE_EXTENSION') || define('FM_FILE_EXTENSION', $allowed_file_extensions);
 defined('FM_UPLOAD_EXTENSION') || define('FM_UPLOAD_EXTENSION', $allowed_upload_extensions);
-defined('FM_EXCLUDE_ITEMS') || define('FM_EXCLUDE_ITEMS', (version_compare(PHP_VERSION, '7.0.0', '<') ? serialize($exclude_items) : $exclude_items));
+defined('FM_EXCLUDE_ITEMS') || define('FM_EXCLUDE_ITEMS', $exclude_items);
 defined('FM_DOC_VIEWER') || define('FM_DOC_VIEWER', $online_viewer);
 define('FM_READONLY', $global_readonly || ($use_auth && !empty($readonly_users) && isset($_SESSION[FM_SESSION_ID]['logged']) && in_array($_SESSION[FM_SESSION_ID]['logged'], $readonly_users)));
 define('FM_IS_WIN', DIRECTORY_SEPARATOR == '\\');
