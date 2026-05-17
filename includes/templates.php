@@ -57,7 +57,10 @@ function fm_show_nav_path($path)
                             <a title="<?php echo lng('Upload') ?>" class="nav-link" href="?p=<?php echo urlencode(FM_PATH) ?>&amp;upload"><i class="fa fa-cloud-upload" aria-hidden="true"></i> <?php echo lng('Upload') ?></a>
                         </li>
                         <li class="nav-item">
-                            <a title="<?php echo lng('NewItem') ?>" class="nav-link" href="#createNewItem" data-bs-toggle="modal" data-bs-target="#createNewItem"><i class="fa fa-plus-square"></i> <?php echo lng('NewItem') ?></a>
+                            <a title="<?php echo lng('NewFolder') ?>" class="nav-link" href="#createNewFolder" data-bs-toggle="modal" data-bs-target="#createNewFolder"><i class="fa fa-folder"></i> <?php echo lng('NewFolder') ?></a>
+                        </li>
+                        <li class="nav-item">
+                            <a title="<?php echo lng('NewFile') ?>" class="nav-link" href="#createNewFile" data-bs-toggle="modal" data-bs-target="#createNewFile"><i class="fa fa-file-o"></i> <?php echo lng('NewFile') ?></a>
                         </li>
                     <?php endif; ?>
                     <?php if (FM_USE_AUTH): ?>
@@ -1000,29 +1003,42 @@ function fm_show_header_login()
 
     <body class="<?php echo (FM_THEME == "dark") ? 'theme-dark' : ''; ?> <?php echo $isStickyNavBar; ?>">
         <div id="wrapper" class="container-fluid">
-            <!-- New Item creation -->
-            <div class="modal fade" id="createNewItem" tabindex="-1" role="dialog" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="newItemModalLabel" aria-hidden="true" data-bs-theme="<?php echo FM_THEME; ?>">
+            <!-- New Folder -->
+            <div class="modal fade" id="createNewFolder" tabindex="-1" role="dialog" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="newFolderModalLabel" aria-hidden="true" data-bs-theme="<?php echo FM_THEME; ?>">
                 <div class="modal-dialog" role="document">
                     <form class="modal-content" method="post">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="newItemModalLabel"><i class="fa fa-plus-square fa-fw"></i><?php echo lng('CreateNewItem') ?></h5>
+                            <h5 class="modal-title" id="newFolderModalLabel"><i class="fa fa-folder fa-fw"></i> <?php echo lng('NewFolder') ?></h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <p><label for="newfile"><?php echo lng('ItemType') ?> </label></p>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="newfile" id="customRadioInline1" name="newfile" value="file">
-                                <label class="form-check-label" for="customRadioInline1"><?php echo lng('File') ?></label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="newfile" id="customRadioInline2" value="folder" checked>
-                                <label class="form-check-label" for="customRadioInline2"><?php echo lng('Folder') ?></label>
-                            </div>
-
-                            <p class="mt-3"><label for="newfilename"><?php echo lng('ItemName') ?> </label></p>
-                            <input type="text" name="newfilename" id="newfilename" value="" class="form-control" placeholder="<?php echo lng('Enter here...') ?>" required>
+                            <label for="newfolderfilename" class="form-label"><?php echo lng('FolderName') ?></label>
+                            <input type="text" name="newfilename" id="newfolderfilename" value="" class="form-control" placeholder="<?php echo lng('Enter here...') ?>" required autofocus>
                         </div>
                         <div class="modal-footer">
+                            <input type="hidden" name="newfile" value="folder">
+                            <input type="hidden" name="token" value="<?php echo $_SESSION['token']; ?>">
+                            <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal"><i class="fa fa-times-circle"></i> <?php echo lng('Cancel') ?></button>
+                            <button type="submit" class="btn btn-success"><i class="fa fa-check-circle"></i> <?php echo lng('CreateNow') ?></button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- New File -->
+            <div class="modal fade" id="createNewFile" tabindex="-1" role="dialog" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="newFileModalLabel" aria-hidden="true" data-bs-theme="<?php echo FM_THEME; ?>">
+                <div class="modal-dialog" role="document">
+                    <form class="modal-content" method="post">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="newFileModalLabel"><i class="fa fa-file-o fa-fw"></i> <?php echo lng('NewFile') ?></h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <label for="newfilefilename" class="form-label"><?php echo lng('FileName') ?></label>
+                            <input type="text" name="newfilename" id="newfilefilename" value="" class="form-control" placeholder="<?php echo lng('Enter here...') ?>" required autofocus>
+                        </div>
+                        <div class="modal-footer">
+                            <input type="hidden" name="newfile" value="file">
                             <input type="hidden" name="token" value="<?php echo $_SESSION['token']; ?>">
                             <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal"><i class="fa fa-times-circle"></i> <?php echo lng('Cancel') ?></button>
                             <button type="submit" class="btn btn-success"><i class="fa fa-check-circle"></i> <?php echo lng('CreateNow') ?></button>

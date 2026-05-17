@@ -28,6 +28,10 @@
         $tr['en']['Owner']          = 'Owner';
         $tr['en']['Search']         = 'Search';
         $tr['en']['NewItem']        = 'New Item';
+        $tr['en']['NewFolder']      = 'New Folder';
+        $tr['en']['NewFile']        = 'New File';
+        $tr['en']['FolderName']     = 'Folder Name';
+        $tr['en']['FileName']       = 'File Name';
         $tr['en']['Folder']         = 'Folder';
         $tr['en']['Delete']         = 'Delete';
         $tr['en']['Rename']         = 'Rename';
