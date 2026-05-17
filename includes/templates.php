@@ -580,6 +580,29 @@ function fm_show_header_login()
                 background-color: #fff
             }
 
+            #back-to-top {
+                position: fixed;
+                bottom: 1.5rem;
+                right: 1.5rem;
+                width: 2.5rem;
+                height: 2.5rem;
+                border-radius: 50%;
+                border: none;
+                background: #1b77fd;
+                color: #fff;
+                font-size: 1rem;
+                cursor: pointer;
+                opacity: 0;
+                pointer-events: none;
+                transition: opacity .25s;
+                z-index: 1050;
+                box-shadow: 0 2px 8px rgba(0,0,0,.25);
+            }
+            #back-to-top.visible {
+                opacity: 1;
+                pointer-events: auto;
+            }
+
             .filename {
                 max-width: 420px;
                 overflow: hidden;
@@ -1822,6 +1845,17 @@ function fm_show_header_login()
         <footer class="py-4 mt-4 border-top text-center text-muted small" data-bs-theme="<?php echo FM_THEME; ?>">
             <?php echo lng('AppName') ?>
         </footer>
+        <button id="back-to-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Voltar ao topo" aria-label="Voltar ao topo">
+            <i class="fa fa-chevron-up"></i>
+        </button>
+        <script>
+            (function(){
+                var btn = document.getElementById('back-to-top');
+                window.addEventListener('scroll', function(){
+                    btn.classList.toggle('visible', window.scrollY > 300);
+                }, {passive: true});
+            })();
+        </script>
     </body>
 
     </html>

@@ -1,11 +1,16 @@
 - bugs
 
+Deprecated: Function finfo_close() is deprecated since 8.5, as finfo objects are freed automatically in /var/www/html/tinyfilemanager/includes/functions.php on line 212
 
 - new features
 
-obfuscate files links
+pagination button on top and botton
+filter buttons on pagination by type
+back to top button
+move file function
 simple pdf viewer
 grid view
+back and foward buttons
 review security
 full comments and documentation
 organize and simplify code
@@ -14,10 +19,6 @@ editor de texto
 review interface issues
 update readme
 share button with temporary and fixed link
-move file function
 drag and drop itens
-back and foward buttons
 play audio playlist
 play video playlist
-pagination button on top and botton
-filter buttons on pagination by type
