@@ -21,3 +21,8 @@ play video playlist
 pagination button on top and botton
 update pt_BR translation
 update docker files
+user management
+project image upload, to replace original image
+project rename option
+disable google and microsoft viewers (obsolete)
+how persistence works for settings?
