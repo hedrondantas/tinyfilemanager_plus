@@ -408,6 +408,8 @@ if (isset($_GET['view'])) {
 
     $file_url = FM_ROOT_URL . fm_convert_win((FM_PATH != '' ? '/' . FM_PATH : '') . '/' . $file);
     $file_path = $path . '/' . $file;
+    $file_token = fm_get_file_token($file, $file_path);
+    $file_token_url = '?ft=' . $file_token;
 
     $ext = strtolower(pathinfo($file_path, PATHINFO_EXTENSION));
     $mime_type = fm_get_mime_type($file_path);
@@ -502,7 +504,7 @@ if (isset($_GET['view'])) {
                 <?php if (!FM_READONLY): ?>
                     <a class="fw-bold btn btn-outline-primary" title="<?php echo lng('Delete') ?>" href="?p=<?php echo urlencode(FM_PATH) ?>&amp;del=<?php echo urlencode($file) ?>" onclick="confirmDailog(event, 1209, '<?php echo lng('Delete') . ' ' . lng('File'); ?>','<?php echo urlencode($file); ?>', this.href);"> <i class="fa fa-trash"></i> Delete</a>
                 <?php endif; ?>
-                <a class="fw-bold btn btn-outline-primary" href="<?php echo fm_enc($file_url) ?>" target="_blank"><i class="fa fa-external-link-square"></i> <?php echo lng('Open') ?></a></b>
+                <a class="fw-bold btn btn-outline-primary" href="<?php echo $file_token_url ?>" target="_blank"><i class="fa fa-external-link-square"></i> <?php echo lng('Open') ?></a>
                 <?php
                 // ZIP actions
                 if (!FM_READONLY && ($is_zip || $is_gzip) && $filenames !== false) {
@@ -559,7 +561,7 @@ if (isset($_GET['view'])) {
                 } elseif ($is_image) {
                     // Image content
                     if (in_array($ext, array('gif', 'jpg', 'jpeg', 'png', 'bmp', 'ico', 'svg', 'webp', 'avif'))) {
-                        echo '<p><input type="checkbox" id="preview-img-zoomCheck"><label for="preview-img-zoomCheck"><img src="' . fm_enc($file_url) . '" alt="image" class="preview-img"></label></p>';
+                        echo '<p><input type="checkbox" id="preview-img-zoomCheck"><label for="preview-img-zoomCheck"><img src="' . $file_token_url . '" alt="image" class="preview-img"></label></p>';
                     }
                 } elseif ($is_audio) {
                     // Audio content
@@ -586,7 +588,7 @@ if (isset($_GET['view'])) {
                     echo '<div class="mb-3"><i class="fa fa-music" style="font-size:4rem;opacity:.4;"></i></div>';
                     echo '<p class="fw-bold mb-3">' . fm_enc($file) . '</p>';
                     echo '<audio class="w-100" controls preload="metadata">';
-                    echo '<source src="' . fm_enc($file_url) . '" type="' . fm_enc($audio_mime) . '">';
+                    echo '<source src="' . $file_token_url . '" type="' . fm_enc($audio_mime) . '">';
                     echo '</audio>';
                     echo '</div>';
                     echo '</div>';
@@ -596,7 +598,7 @@ if (isset($_GET['view'])) {
                     echo '<span class="text-truncate me-2"><i class="fa fa-film me-1"></i>' . fm_enc($file) . '</span>';
                     echo '<button type="button" class="btn btn-sm btn-outline-light flex-shrink-0" onclick="toggleTheater()"><i class="fa fa-compress me-1"></i>Sair do Teatro</button>';
                     echo '</div>';
-                    echo '<div class="preview-video"><video src="' . fm_enc($file_url) . '" controls preload="metadata"></video></div>';
+                    echo '<div class="preview-video"><video src="' . $file_token_url . '" controls preload="metadata"></video></div>';
                     echo '<div class="d-flex justify-content-end mt-1">';
                     echo '<button type="button" id="theater-btn" class="btn btn-sm btn-outline-secondary" onclick="toggleTheater()">';
                     echo '<i class="fa fa-expand" id="theater-icon"></i> <span id="theater-label">Modo Teatro</span>';
@@ -1007,7 +1009,7 @@ $all_files_size = 0;
                         <div class="filename">
                             <?php
                             if (in_array(strtolower(pathinfo($f, PATHINFO_EXTENSION)), array('gif', 'jpg', 'jpeg', 'png', 'bmp', 'ico', 'svg', 'webp', 'avif'))): ?>
-                                <?php $imagePreview = fm_enc(FM_ROOT_URL . (FM_PATH != '' ? '/' . FM_PATH : '') . '/' . $f); ?>
+                                <?php $imagePreview = '?ft=' . fm_get_file_token($f, $path . '/' . $f); ?>
                                 <a href="<?php echo $filelink ?>" data-preview-image="<?php echo $imagePreview ?>" title="<?php echo fm_enc($f) ?>">
                                 <?php else: ?>
                                     <a href="<?php echo $filelink ?>" title="<?php echo $f ?>">
@@ -1034,7 +1036,7 @@ $all_files_size = 0;
                             <a title="<?php echo lng('CopyTo') ?>..."
                                 href="?p=<?php echo urlencode(FM_PATH) ?>&amp;copy=<?php echo urlencode(trim(FM_PATH . '/' . $f, '/')) ?>"><i class="fa fa-files-o"></i></a>
                         <?php endif; ?>
-                        <a title="<?php echo lng('DirectLink') ?>" href="<?php echo fm_enc(FM_ROOT_URL . (FM_PATH != '' ? '/' . FM_PATH : '') . '/' . $f) ?>" target="_blank"><i class="fa fa-link"></i></a>
+                        <a title="<?php echo lng('DirectLink') ?>" href="?ft=<?php echo fm_get_file_token($f, $path . '/' . $f) ?>" target="_blank"><i class="fa fa-link"></i></a>
                         <a title="<?php echo lng('Download') ?>" href="?p=<?php echo urlencode(FM_PATH) ?>&amp;dl=<?php echo urlencode($f) ?>" onclick="confirmDailog(event, 1211, '<?php echo lng('Download'); ?>','<?php echo urlencode($f); ?>', this.href);"><i class="fa fa-download"></i></a>
                     </td>
                 </tr>

@@ -129,15 +129,14 @@ if ((isset($_SESSION[FM_SESSION_ID]['logged'], $auth_users[$_SESSION[FM_SESSION_
             $path .= '/' . FM_PATH;
         }
 
-        function event_callback($message)
+        function event_callback(string $message)
         {
-            global $callback;
             echo json_encode($message);
         }
 
         function get_file_path()
         {
-            global $path, $fileinfo, $temp_file;
+            global $path, $fileinfo;
             return $path . "/" . basename($fileinfo->name);
         }
 
@@ -184,7 +183,7 @@ if ((isset($_SESSION[FM_SESSION_ID]['logged'], $auth_users[$_SESSION[FM_SESSION_
             if (!$success) {
                 $err = array("message" => curl_error($ch));
             }
-            @curl_close($ch);
+            unset($ch);
             fclose($fp);
             $fileinfo->size = $curl_info["size_download"];
             $fileinfo->type = $curl_info["content_type"];
@@ -446,6 +445,61 @@ if (isset($_POST['rename_from'], $_POST['rename_to'], $_POST['token']) && !FM_RE
     }
     $FM_PATH = FM_PATH;
     fm_redirect(FM_SELF_URL . '?p=' . urlencode($FM_PATH));
+}
+
+// Obfuscated file token handler — serves a file by its session token (?ft=TOKEN)
+if (isset($_GET['ft'])) {
+    if (FM_USE_AUTH && !isset($_SESSION[FM_SESSION_ID]['logged'], $auth_users[$_SESSION[FM_SESSION_ID]['logged']])) {
+        http_response_code(403);
+        exit;
+    }
+    $token = preg_replace('/[^a-f0-9]/', '', $_GET['ft']);
+    if (empty($token) || !isset($_SESSION['fm_tokens'][$token])) {
+        http_response_code(404);
+        exit;
+    }
+    $info      = $_SESSION['fm_tokens'][$token];
+    $file_path = $info['path'];
+    $file_name = $info['name'];
+    session_write_close(); // release session lock so concurrent range requests don't block each other
+
+    if (!is_file($file_path) || !fm_is_exclude_items($file_name, $file_path)) {
+        http_response_code(404);
+        exit;
+    }
+
+    $mime        = fm_get_mime_type($file_path);
+    $size        = filesize($file_path);
+    $disposition = isset($_GET['dl']) ? 'attachment' : 'inline';
+
+    while (ob_get_level()) ob_end_clean(); // discard any buffered output before sending headers
+
+    header('Content-Type: ' . $mime);
+    header('Content-Disposition: ' . $disposition . '; filename="' . rawurlencode($file_name) . '"');
+    header('Cache-Control: no-store');
+    header('Accept-Ranges: bytes');
+
+    if (isset($_SERVER['HTTP_RANGE'])) {
+        [$unit, $range_str] = array_pad(explode('=', $_SERVER['HTTP_RANGE'], 2), 2, '');
+        [$range_start, $range_end] = array_pad(explode('-', trim($range_str), 2), 2, '');
+        $start = max(0, (int)$range_start);
+        $end   = ($range_end !== '' && (int)$range_end < $size) ? (int)$range_end : $size - 1;
+        http_response_code(206);
+        header('Content-Range: bytes ' . $start . '-' . $end . '/' . $size);
+        header('Content-Length: ' . ($end - $start + 1));
+        $fp = fopen($file_path, 'rb');
+        fseek($fp, $start);
+        $buf = 65536;
+        while (!feof($fp) && ftell($fp) <= $end) {
+            echo fread($fp, min($buf, $end - ftell($fp) + 1));
+            flush();
+        }
+        fclose($fp);
+    } else {
+        header('Content-Length: ' . $size);
+        readfile($file_path);
+    }
+    exit;
 }
 
 // Download
@@ -710,6 +764,7 @@ if (isset($_POST['group'], $_POST['token']) && (isset($_POST['zip']) || isset($_
             $zipname = 'archive_' . date('ymd_His') . '.' . $ext;
         }
 
+        $res = false;
         if ($ext == 'zip') {
             $zipper = new FM_Zipper();
             $res = $zipper->create($zipname, $files);
@@ -742,7 +797,10 @@ if (isset($_POST['unzip'], $_POST['token']) && !FM_READONLY) {
     $unzip = urldecode($_POST['unzip']);
     $unzip = fm_clean_path($unzip);
     $unzip = str_replace('/', '', $unzip);
-    $isValid = false;
+    $isValid  = false;
+    $ext      = '';
+    $zip_path = '';
+    $res      = false;
 
     $path = FM_ROOT_PATH;
     if (FM_PATH != '') {

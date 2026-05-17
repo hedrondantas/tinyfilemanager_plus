@@ -877,6 +877,32 @@ function fm_get_text_exts()
 }
 
 /**
+ * Return (or generate) a short session-scoped token that maps to a real file path.
+ * Tokens are stored in $_SESSION['fm_tokens'] and expire with the session.
+ * @param string $file  basename
+ * @param string $file_path  absolute path
+ * @return string 12-char hex token
+ */
+function fm_get_file_token($file, $file_path)
+{
+    if (!isset($_SESSION['fm_tokens'])) {
+        $_SESSION['fm_tokens'] = [];
+    }
+    // Return cached token for this path
+    foreach ($_SESSION['fm_tokens'] as $tok => $info) {
+        if ($info['path'] === $file_path) return $tok;
+    }
+    // Keep the map bounded: drop oldest entries when over 500
+    if (count($_SESSION['fm_tokens']) >= 500) {
+        uasort($_SESSION['fm_tokens'], fn($a, $b) => $a['t'] - $b['t']);
+        $_SESSION['fm_tokens'] = array_slice($_SESSION['fm_tokens'], -400, null, true);
+    }
+    $token = bin2hex(random_bytes(6)); // 12 hex chars
+    $_SESSION['fm_tokens'][$token] = ['path' => $file_path, 'name' => $file, 't' => time()];
+    return $token;
+}
+
+/**
  * Return a translation key representing the general type of a file by its extension
  * @param string $ext
  * @return string

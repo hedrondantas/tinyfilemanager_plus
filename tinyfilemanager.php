@@ -275,7 +275,7 @@ define('FM_READONLY', $global_readonly || ($use_auth && !empty($readonly_users) 
 define('FM_IS_WIN', DIRECTORY_SEPARATOR == '\\');
 
 // always use ?p=
-if (!isset($_GET['p']) && empty($_FILES)) {
+if (!isset($_GET['p']) && !isset($_GET['ft']) && empty($_FILES)) {
     fm_redirect(FM_SELF_URL . '?p=');
 }
 
