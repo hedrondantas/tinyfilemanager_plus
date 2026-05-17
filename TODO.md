@@ -5,7 +5,6 @@ Deprecated: Function finfo_close() is deprecated since 8.5, as finfo objects are
 - new features
 
 move file function
-simple pdf viewer
 grid view
 back and foward buttons
 review security
@@ -21,3 +20,4 @@ play audio playlist
 play video playlist
 pagination button on top and botton
 update pt_BR translation
+update docker files
