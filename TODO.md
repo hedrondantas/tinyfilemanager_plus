@@ -4,7 +4,6 @@ Deprecated: Function finfo_close() is deprecated since 8.5, as finfo objects are
 
 - new features
 
-pagination button on top and botton
 filter buttons on pagination by type
 back to top button
 move file function
@@ -22,3 +21,4 @@ share button with temporary and fixed link
 drag and drop itens
 play audio playlist
 play video playlist
+pagination button on top and botton

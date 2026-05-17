@@ -207,10 +207,8 @@ function fm_copy($f1, $f2, $upd)
 function fm_get_mime_type($file_path)
 {
     if (function_exists('finfo_open')) {
-        $finfo = finfo_open(FILEINFO_MIME_TYPE);
-        $mime = finfo_file($finfo, $file_path);
-        finfo_close($finfo);
-        return $mime;
+        $finfo = new finfo(FILEINFO_MIME_TYPE);
+        return $finfo->file($file_path);
     } elseif (function_exists('mime_content_type')) {
         return mime_content_type($file_path);
     } elseif (!stristr(ini_get('disable_functions'), 'shell_exec')) {
