@@ -3,7 +3,6 @@
 
 - new features
 
-mode theater for video player
 grid view
 review security
 obfuscate files links
@@ -12,3 +11,4 @@ organize and simplify code
 drag and drop on main screen
 pagination for big list files
 editor de texto
+type collumn on table

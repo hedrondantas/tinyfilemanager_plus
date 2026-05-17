@@ -245,7 +245,7 @@ if (isset($_GET['copy']) && !isset($_GET['finish']) && !FM_READONLY) {
 if (isset($_GET['settings']) && !FM_READONLY) {
     fm_show_header(); // HEADER
     fm_show_nav_path(FM_PATH); // current path
-    global $cfg, $lang, $lang_list;
+    global $cfg, $lang, $lang_list, $report_errors, $show_hidden_files, $hide_Cols, $theme;
 ?>
 
     <div class="col-md-8 offset-md-2 pt-3">
@@ -448,8 +448,8 @@ if (isset($_GET['view'])) {
     }
 
 ?>
-    <div class="row mt-3">
-        <div class="col-12 col-md-4">
+    <div class="row mt-3" id="file-viewer-row">
+        <div class="col-12 col-md-4" id="viewer-info-col">
             <ul class="list-group my-3" data-bs-theme="<?php echo FM_THEME; ?>">
                 <li class="list-group-item active" aria-current="true"><strong><?php echo lng($view_title) ?>:</strong> <?php echo fm_enc(fm_convert_win($file)) ?></li>
                 <?php $display_path = fm_get_display_path($file_path); ?>
@@ -533,7 +533,7 @@ if (isset($_GET['view'])) {
                 <a class="fw-bold btn btn-outline-primary" href="?p=<?php echo urlencode(FM_PATH) ?>"><i class="fa fa-chevron-circle-left go-back"></i> <?php echo lng('Back') ?></a>
             </div>
         </div>
-        <div class="col-12 col-md-8 pt-2">
+        <div class="col-12 col-md-8 pt-2" id="viewer-preview-col">
             <?php
                 if ($is_onlineViewer) {
                     if ($online_viewer == 'google') {
@@ -592,7 +592,40 @@ if (isset($_GET['view'])) {
                     echo '</div>';
                 } elseif ($is_video) {
                     // Video content
-                    echo '<div class="preview-video"><video src="' . fm_enc($file_url) . '" width="640" height="360" controls preload="metadata"></video></div>';
+                    echo '<div id="theater-exit-bar">';
+                    echo '<span class="text-truncate me-2"><i class="fa fa-film me-1"></i>' . fm_enc($file) . '</span>';
+                    echo '<button type="button" class="btn btn-sm btn-outline-light flex-shrink-0" onclick="toggleTheater()"><i class="fa fa-compress me-1"></i>Sair do Teatro</button>';
+                    echo '</div>';
+                    echo '<div class="preview-video"><video src="' . fm_enc($file_url) . '" controls preload="metadata"></video></div>';
+                    echo '<div class="d-flex justify-content-end mt-1">';
+                    echo '<button type="button" id="theater-btn" class="btn btn-sm btn-outline-secondary" onclick="toggleTheater()">';
+                    echo '<i class="fa fa-expand" id="theater-icon"></i> <span id="theater-label">Modo Teatro</span>';
+                    echo '</button>';
+                    echo '</div>';
+                    echo '<script>';
+                    echo 'function toggleTheater(){';
+                    echo 'var row=document.getElementById("file-viewer-row");';
+                    echo 'var info=document.getElementById("viewer-info-col");';
+                    echo 'var preview=document.getElementById("viewer-preview-col");';
+                    echo 'var icon=document.getElementById("theater-icon");';
+                    echo 'var label=document.getElementById("theater-label");';
+                    echo 'var on=row.classList.toggle("theater-mode");';
+                    echo 'if(on){';
+                    echo 'info.classList.add("d-none");';
+                    echo 'preview.classList.remove("col-md-8","pt-2");';
+                    echo 'preview.classList.add("col-12","p-0");';
+                    echo 'icon.className="fa fa-compress";';
+                    echo 'label.textContent="Sair do Teatro";';
+                    echo 'row.scrollIntoView({behavior:"smooth",block:"start"});';
+                    echo '}else{';
+                    echo 'info.classList.remove("d-none");';
+                    echo 'preview.classList.remove("col-12","p-0");';
+                    echo 'preview.classList.add("col-md-8","pt-2");';
+                    echo 'icon.className="fa fa-expand";';
+                    echo 'label.textContent="Modo Teatro";';
+                    echo '}';
+                    echo '}';
+                    echo '</script>';
                 } elseif ($is_text) {
                     if (FM_USE_HIGHLIGHTJS) {
                         // highlight
@@ -804,6 +837,7 @@ if (isset($_GET['chmod']) && !FM_READONLY && !FM_IS_WIN) {
 }
 
 // --- TINYFILEMANAGER MAIN ---
+global $hide_Cols;
 fm_show_header(); // HEADER
 fm_show_nav_path(FM_PATH); // current path
 

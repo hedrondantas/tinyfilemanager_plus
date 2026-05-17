@@ -528,6 +528,32 @@ function fm_show_header_login()
                 background: #000
             }
 
+            #file-viewer-row.theater-mode {
+                background: #111;
+                margin-left: -12px;
+                margin-right: -12px;
+                border-radius: 4px;
+            }
+
+            #file-viewer-row.theater-mode .preview-video {
+                padding-bottom: 56.25%;
+                margin-bottom: 0;
+            }
+
+            #theater-exit-bar {
+                display: none;
+                justify-content: space-between;
+                align-items: center;
+                padding: .5rem 1rem;
+                background: rgba(0,0,0,.6);
+                color: #fff;
+                border-radius: 4px 4px 0 0;
+            }
+
+            #file-viewer-row.theater-mode #theater-exit-bar {
+                display: flex;
+            }
+
             .compact-table {
                 border: 0;
                 width: auto
