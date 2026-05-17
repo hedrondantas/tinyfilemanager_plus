@@ -563,7 +563,33 @@ if (isset($_GET['view'])) {
                     }
                 } elseif ($is_audio) {
                     // Audio content
-                    echo '<p><audio src="' . fm_enc($file_url) . '" controls preload="metadata"></audio></p>';
+                    $audio_ext = strtolower($ext);
+                    $mime_map = array(
+                        'mp3'  => 'audio/mpeg',
+                        'ogg'  => 'audio/ogg',
+                        'wav'  => 'audio/wav',
+                        'm4a'  => 'audio/mp4',
+                        'aac'  => 'audio/aac',
+                        'flac' => 'audio/flac',
+                        'opus' => 'audio/ogg; codecs=opus',
+                        'weba' => 'audio/webm',
+                        'webm' => 'audio/webm',
+                        'mid'  => 'audio/midi',
+                        'midi' => 'audio/midi',
+                        'aif'  => 'audio/aiff',
+                        'aiff' => 'audio/aiff',
+                        'wma'  => 'audio/x-ms-wma',
+                    );
+                    $audio_mime = isset($mime_map[$audio_ext]) ? $mime_map[$audio_ext] : 'audio/' . $audio_ext;
+                    echo '<div class="audio-player-wrap mt-3">';
+                    echo '<div class="card p-4 text-center" data-bs-theme="' . FM_THEME . '">';
+                    echo '<div class="mb-3"><i class="fa fa-music" style="font-size:4rem;opacity:.4;"></i></div>';
+                    echo '<p class="fw-bold mb-3">' . fm_enc($file) . '</p>';
+                    echo '<audio class="w-100" controls preload="metadata">';
+                    echo '<source src="' . fm_enc($file_url) . '" type="' . fm_enc($audio_mime) . '">';
+                    echo '</audio>';
+                    echo '</div>';
+                    echo '</div>';
                 } elseif ($is_video) {
                     // Video content
                     echo '<div class="preview-video"><video src="' . fm_enc($file_url) . '" width="640" height="360" controls preload="metadata"></video></div>';

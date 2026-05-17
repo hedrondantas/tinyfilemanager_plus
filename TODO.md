@@ -1,7 +1,14 @@
 - bugs
 
-Deprecated: Function finfo_close() is deprecated since 8.5, as finfo objects are freed automatically in /var/www/html/filemanager/index.php on line 2571
 
 - new features
 
-new video player screen
+mode theater for video player
+grid view
+review security
+obfuscate files links
+full comments and documentation
+organize and simplify code
+drag and drop on main screen
+pagination for big list files
+editor de texto
