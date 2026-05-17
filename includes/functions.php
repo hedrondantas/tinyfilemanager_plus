@@ -52,7 +52,7 @@ function fm_rdelete($path)
         }
         return ($ok) ? rmdir($path) : false;
     } elseif (is_file($path)) {
-        return unlink($path);
+        return is_writable($path) && unlink($path);
     }
     return false;
 }
