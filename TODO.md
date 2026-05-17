@@ -11,4 +11,4 @@ organize and simplify code
 drag and drop on main screen
 pagination for big list files
 editor de texto
-type collumn on table
+add footer

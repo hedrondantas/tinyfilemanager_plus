@@ -1537,7 +1537,14 @@
         "light": "Claro",
         "dark": "Escuro",
         "a files": "um arquivo",
-        "Sometimes the save action may not work on the first try, so please attempt it again": "Às vezes a ação de salvar pode não funcionar na primeira tentativa, tente novamente."
+        "Sometimes the save action may not work on the first try, so please attempt it again": "Às vezes a ação de salvar pode não funcionar na primeira tentativa, tente novamente.",
+        "Type": "Tipo",
+        "Image": "Imagem",
+        "Video": "Vídeo",
+        "Audio": "Áudio",
+        "Document": "Documento",
+        "Code": "Código",
+        "Text": "Texto"
       }
     },
     {

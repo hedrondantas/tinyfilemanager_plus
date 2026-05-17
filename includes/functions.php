@@ -877,6 +877,41 @@ function fm_get_text_exts()
 }
 
 /**
+ * Return a translation key representing the general type of a file by its extension
+ * @param string $ext
+ * @return string
+ */
+function fm_get_file_type_label($ext)
+{
+    $ext = strtolower($ext);
+    if (in_array($ext, fm_get_image_exts())) return 'Image';
+    if (in_array($ext, fm_get_video_exts())) return 'Video';
+    if (in_array($ext, fm_get_audio_exts())) return 'Audio';
+    static $archive_exts = array('zip', 'tar', 'gz', 'bz2', 'rar', '7z', 'xz', 'tgz', 'tbz2', 'cab', 'iso', 'dmg', 'pkg', 'deb', 'rpm', 'apk', 'jar');
+    if (in_array($ext, $archive_exts))        return 'Archive';
+    static $doc_exts = array('pdf', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx', 'odt', 'ods', 'odp', 'rtf', 'epub', 'mobi');
+    if (in_array($ext, $doc_exts))            return 'Document';
+    static $code_exts = array(
+        'php', 'php3', 'php4', 'php5', 'phps', 'phtml',
+        'js', 'ts', 'jsx', 'tsx', 'mjs', 'es', 'es6', 'coffee',
+        'css', 'scss', 'sass', 'less',
+        'html', 'htm', 'xhtml', 'shtml', 'twig', 'tpl', 'mustache', 'jinja', 'handlebars', 'vue',
+        'xml', 'xsl', 'dtd', 'graphql',
+        'json', 'yaml', 'yml', 'toml',
+        'sql', 'sh', 'bash', 'zsh', 'bat', 'cmd', 'ps1', 'psm1',
+        'py', 'rb', 'pl', 'lua', 'go', 'rs', 'swift', 'kt', 'java',
+        'c', 'cpp', 'c++', 'h', 'hpp', 'cs', 'csx', 'cshtml', 'vb', 'vbs',
+        'asp', 'aspx', 'asmx', 'ashx', 'asx', 'jsp', 'jspx', 'cgi',
+        'r', 'scpt', 'applescript', 'cfm', 'ruby',
+        'dockerfile', 'config', 'ini', 'conf', 'htaccess', 'htpasswd',
+        'markdown', 'wiki',
+    );
+    if (in_array($ext, $code_exts))           return 'Code';
+    if (in_array($ext, fm_get_text_exts()))   return 'Text';
+    return 'File';
+}
+
+/**
  * Get mime types of text files
  * @return array
  */

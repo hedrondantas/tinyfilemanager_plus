@@ -864,6 +864,7 @@ $all_files_size = 0;
                             </div>
                         </th><?php endif; ?>
                     <th><?php echo lng('Name') ?></th>
+                    <th><?php echo lng('Type') ?></th>
                     <th><?php echo lng('Size') ?></th>
                     <th><?php echo lng('Modified') ?></th>
                     <?php if (!FM_IS_WIN && !$hide_Cols): ?>
@@ -879,6 +880,7 @@ $all_files_size = 0;
                 <tr><?php if (!FM_READONLY): ?>
                         <td class="nosort"></td><?php endif; ?>
                     <td class="border-0" data-sort><a href="?p=<?php echo urlencode($parent) ?>"><i class="fa fa-chevron-circle-left go-back"></i> ..</a></td>
+                    <td class="border-0"></td>
                     <td class="border-0" data-order></td>
                     <td class="border-0" data-order></td>
                     <td class="border-0"></td>
@@ -935,6 +937,7 @@ $all_files_size = 0;
                             <?php echo ($is_link ? ' &rarr; <i>' . readlink($path . '/' . $f) . '</i>' : '') ?>
                         </div>
                     </td>
+                    <td class="text-muted small"><?php echo lng('Folder') ?></td>
                     <td data-order="a-<?php echo str_pad($filesize_raw, 18, "0", STR_PAD_LEFT); ?>">
                         <?php echo $filesize; ?>
                     </td>
@@ -1014,6 +1017,7 @@ $all_files_size = 0;
                                     <?php echo ($is_link ? ' &rarr; <i>' . readlink($path . '/' . $f) . '</i>' : '') ?>
                         </div>
                     </td>
+                    <td class="text-muted small"><?php echo lng(fm_get_file_type_label(strtolower(pathinfo($f, PATHINFO_EXTENSION)))) ?></td>
                     <td data-order="b-<?php echo str_pad($filesize_raw, 18, "0", STR_PAD_LEFT); ?>"><span title="<?php printf('%s bytes', $filesize_raw) ?>">
                             <?php echo $filesize; ?>
                         </span></td>
@@ -1043,14 +1047,14 @@ $all_files_size = 0;
                 <tfoot>
                     <tr><?php if (!FM_READONLY): ?>
                             <td></td><?php endif; ?>
-                        <td colspan="<?php echo (!FM_IS_WIN && !$hide_Cols) ? '6' : '4' ?>"><em><?php echo lng('Folder is empty') ?></em></td>
+                        <td colspan="<?php echo (!FM_IS_WIN && !$hide_Cols) ? '7' : '5' ?>"><em><?php echo lng('Folder is empty') ?></em></td>
                     </tr>
                 </tfoot>
             <?php
             } else { ?>
                 <tfoot>
                     <tr>
-                        <td class="gray fs-7" colspan="<?php echo (!FM_IS_WIN && !$hide_Cols) ? (FM_READONLY ? '6' : '7') : (FM_READONLY ? '4' : '5') ?>">
+                        <td class="gray fs-7" colspan="<?php echo (!FM_IS_WIN && !$hide_Cols) ? (FM_READONLY ? '7' : '8') : (FM_READONLY ? '5' : '6') ?>">
                             <?php echo lng('FullSize') . ': <span class="badge text-bg-light border-radius-0">' . fm_get_filesize($all_files_size) . '</span>' ?>
                             <?php echo lng('File') . ': <span class="badge text-bg-light border-radius-0">' . $num_files . '</span>' ?>
                             <?php echo lng('Folder') . ': <span class="badge text-bg-light border-radius-0">' . $num_folders . '</span>' ?>

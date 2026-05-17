@@ -123,6 +123,13 @@
         $tr['en']['Date Modified']                                  = 'Date Modified';
         $tr['en']['File size']                                      = 'File size';
         $tr['en']['MIME-type']                                      = 'MIME-type';
+        $tr['en']['Type']                                           = 'Type';
+        $tr['en']['Image']                                          = 'Image';
+        $tr['en']['Video']                                          = 'Video';
+        $tr['en']['Audio']                                          = 'Audio';
+        $tr['en']['Document']                                       = 'Document';
+        $tr['en']['Code']                                           = 'Code';
+        $tr['en']['Text']                                           = 'Text';
 
         $i18n = fm_get_translations($tr);
         $tr = $i18n ? $i18n : $tr;
