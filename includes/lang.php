@@ -131,6 +131,7 @@
         $tr['en']['Code']                                           = 'Code';
         $tr['en']['Text']                                           = 'Text';
         $tr['en']['All']                                            = 'All';
+        $tr['en']['PDF']                                            = 'PDF viewer not supported by your browser';
 
         $i18n = fm_get_translations($tr);
         $tr = $i18n ? $i18n : $tr;

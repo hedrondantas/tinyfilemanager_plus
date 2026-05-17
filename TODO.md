@@ -16,7 +16,7 @@ editor de texto
 review interface issues
 update readme
 share button with temporary and fixed link
-drag and drop itens
+drag and drop itens (ex. move file to a folder by drag and drop)
 play audio playlist
 play video playlist
 pagination button on top and botton

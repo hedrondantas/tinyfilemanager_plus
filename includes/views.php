@@ -421,6 +421,7 @@ if (isset($_GET['view'])) {
     $is_image = false;
     $is_audio = false;
     $is_video = false;
+    $is_pdf = false;
     $is_text = false;
     $is_onlineViewer = false;
 
@@ -444,6 +445,9 @@ if (isset($_GET['view'])) {
     } elseif (in_array($ext, fm_get_video_exts())) {
         $is_video = true;
         $view_title = 'Video';
+    } elseif ($ext === 'pdf') {
+        $is_pdf = true;
+        $view_title = 'PDF';
     } elseif (in_array($ext, fm_get_text_exts()) || substr($mime_type, 0, 4) == 'text' || in_array($mime_type, fm_get_text_mimes())) {
         $is_text = true;
         $content = file_get_contents($file_path);
@@ -628,6 +632,15 @@ if (isset($_GET['view'])) {
                     echo '}';
                     echo '}';
                     echo '</script>';
+                } elseif ($is_pdf) {
+                    // PDF content
+                    echo '<div class="pdf-viewer-wrap">';
+                    echo '<object data="' . $file_token_url . '" type="application/pdf" style="width:100%;height:80vh;border:none;">';
+                    echo '<div class="alert alert-warning mt-3">';
+                    echo lng('PDF') . ' — <a href="' . $file_token_url . '&amp;dl=1" class="alert-link">' . lng('Download') . '</a>';
+                    echo '</div>';
+                    echo '</object>';
+                    echo '</div>';
                 } elseif ($is_text) {
                     if (FM_USE_HIGHLIGHTJS) {
                         // highlight
