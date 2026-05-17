@@ -448,9 +448,9 @@ if (isset($_GET['view'])) {
     }
 
 ?>
-    <div class="row">
-        <div class="col-12">
-            <ul class="list-group w-50 my-3" data-bs-theme="<?php echo FM_THEME; ?>">
+    <div class="row mt-3">
+        <div class="col-12 col-md-4">
+            <ul class="list-group my-3" data-bs-theme="<?php echo FM_THEME; ?>">
                 <li class="list-group-item active" aria-current="true"><strong><?php echo lng($view_title) ?>:</strong> <?php echo fm_enc(fm_convert_win($file)) ?></li>
                 <?php $display_path = fm_get_display_path($file_path); ?>
                 <li class="list-group-item"><strong><?php echo $display_path['label']; ?>:</strong> <?php echo $display_path['path']; ?></li>
@@ -532,8 +532,9 @@ if (isset($_GET['view'])) {
                 <?php } ?>
                 <a class="fw-bold btn btn-outline-primary" href="?p=<?php echo urlencode(FM_PATH) ?>"><i class="fa fa-chevron-circle-left go-back"></i> <?php echo lng('Back') ?></a>
             </div>
-            <div class="row mt-3">
-                <?php
+        </div>
+        <div class="col-12 col-md-8 pt-2">
+            <?php
                 if ($is_onlineViewer) {
                     if ($online_viewer == 'google') {
                         echo '<iframe src="https://docs.google.com/viewer?embedded=true&hl=en&url=' . fm_enc($file_url) . '" frameborder="no" style="width:100%;min-height:460px"></iframe>';
@@ -590,7 +591,6 @@ if (isset($_GET['view'])) {
                     echo $content;
                 }
                 ?>
-            </div>
         </div>
     </div>
 <?php
