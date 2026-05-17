@@ -130,6 +130,7 @@
         $tr['en']['Document']                                       = 'Document';
         $tr['en']['Code']                                           = 'Code';
         $tr['en']['Text']                                           = 'Text';
+        $tr['en']['All']                                            = 'All';
 
         $i18n = fm_get_translations($tr);
         $tr = $i18n ? $i18n : $tr;

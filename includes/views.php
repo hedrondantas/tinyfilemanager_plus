@@ -854,6 +854,19 @@ $all_files_size = 0;
     <input type="hidden" name="p" value="<?php echo fm_enc(FM_PATH) ?>">
     <input type="hidden" name="group" value="1">
     <input type="hidden" name="token" value="<?php echo $_SESSION['token']; ?>">
+    <div id="type-filter-bar" class="mb-2 d-flex flex-wrap gap-1 align-items-center justify-content-center">
+        <small class="text-muted me-1"><?php echo lng('Type') ?>:</small>
+        <button type="button" class="btn btn-sm btn-primary type-filter-btn active" data-type-filter=""><?php echo lng('All') ?></button>
+        <button type="button" class="btn btn-sm btn-outline-secondary type-filter-btn" data-type-filter="Folder"><i class="fa fa-folder-o"></i> <?php echo lng('Folder') ?></button>
+        <button type="button" class="btn btn-sm btn-outline-secondary type-filter-btn" data-type-filter="Image"><i class="fa fa-file-image-o"></i> <?php echo lng('Image') ?></button>
+        <button type="button" class="btn btn-sm btn-outline-secondary type-filter-btn" data-type-filter="Video"><i class="fa fa-file-video-o"></i> <?php echo lng('Video') ?></button>
+        <button type="button" class="btn btn-sm btn-outline-secondary type-filter-btn" data-type-filter="Audio"><i class="fa fa-file-audio-o"></i> <?php echo lng('Audio') ?></button>
+        <button type="button" class="btn btn-sm btn-outline-secondary type-filter-btn" data-type-filter="Archive"><i class="fa fa-file-archive-o"></i> <?php echo lng('Archive') ?></button>
+        <button type="button" class="btn btn-sm btn-outline-secondary type-filter-btn" data-type-filter="Document"><i class="fa fa-file-word-o"></i> <?php echo lng('Document') ?></button>
+        <button type="button" class="btn btn-sm btn-outline-secondary type-filter-btn" data-type-filter="Code"><i class="fa fa-file-code-o"></i> <?php echo lng('Code') ?></button>
+        <button type="button" class="btn btn-sm btn-outline-secondary type-filter-btn" data-type-filter="Text"><i class="fa fa-file-text-o"></i> <?php echo lng('Text') ?></button>
+        <button type="button" class="btn btn-sm btn-outline-secondary type-filter-btn" data-type-filter="File"><i class="fa fa-file-o"></i> <?php echo lng('File') ?></button>
+    </div>
     <div class="table-responsive">
         <table class="table table-bordered table-hover table-sm" id="main-table" data-bs-theme="<?php echo FM_THEME; ?>">
             <thead class="thead-white">
@@ -939,7 +952,7 @@ $all_files_size = 0;
                             <?php echo ($is_link ? ' &rarr; <i>' . readlink($path . '/' . $f) . '</i>' : '') ?>
                         </div>
                     </td>
-                    <td class="text-muted small"><?php echo lng('Folder') ?></td>
+                    <td class="text-muted small" data-search="Folder"><?php echo lng('Folder') ?></td>
                     <td data-order="a-<?php echo str_pad($filesize_raw, 18, "0", STR_PAD_LEFT); ?>">
                         <?php echo $filesize; ?>
                     </td>
@@ -1019,7 +1032,8 @@ $all_files_size = 0;
                                     <?php echo ($is_link ? ' &rarr; <i>' . readlink($path . '/' . $f) . '</i>' : '') ?>
                         </div>
                     </td>
-                    <td class="text-muted small"><?php echo lng(fm_get_file_type_label(strtolower(pathinfo($f, PATHINFO_EXTENSION)))) ?></td>
+                    <?php $typeKey = fm_get_file_type_label(strtolower(pathinfo($f, PATHINFO_EXTENSION))); ?>
+                    <td class="text-muted small" data-search="<?php echo $typeKey ?>"><?php echo lng($typeKey) ?></td>
                     <td data-order="b-<?php echo str_pad($filesize_raw, 18, "0", STR_PAD_LEFT); ?>"><span title="<?php printf('%s bytes', $filesize_raw) ?>">
                             <?php echo $filesize; ?>
                         </span></td>

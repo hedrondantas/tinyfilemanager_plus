@@ -1510,6 +1510,23 @@ function fm_show_header_login()
                     mainTable.search(this.value).draw();
                 });
 
+                // type filter buttons
+                var typeColIdx = (tableLng >= 6) ? 2 : 1;
+                var activeTypeFilter = '';
+
+                $.fn.dataTable.ext.search.push(function(settings, data, dataIndex) {
+                    if (settings.nTable.id !== 'main-table' || !activeTypeFilter) return true;
+                    var $row = $(mainTable.row(dataIndex).node());
+                    return $row.find('td').eq(typeColIdx).data('search') === activeTypeFilter;
+                });
+
+                $('#type-filter-bar').on('click', '.type-filter-btn', function() {
+                    activeTypeFilter = $(this).data('typeFilter') || '';
+                    $('#type-filter-bar .type-filter-btn').removeClass('btn-primary active').addClass('btn-outline-secondary');
+                    $(this).removeClass('btn-outline-secondary').addClass('btn-primary active');
+                    mainTable.draw();
+                });
+
                 $("input#advanced-search").on('keyup', function(e) {
                     if (e.keyCode === 13) {
                         fm_search();
