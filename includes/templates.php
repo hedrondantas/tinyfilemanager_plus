@@ -1811,6 +1811,9 @@ function fm_show_header_login()
             </script>
         <?php endif; ?>
         <div id="snackbar"></div>
+        <footer class="py-4 mt-4 border-top text-center text-muted small" data-bs-theme="<?php echo FM_THEME; ?>">
+            <?php echo lng('AppName') ?>
+        </footer>
     </body>
 
     </html>
