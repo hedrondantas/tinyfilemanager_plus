@@ -26,3 +26,4 @@ project image upload, to replace original image
 project rename option
 disable google and microsoft viewers (obsolete)
 how persistence works for settings?
+break translation, one file per language, save on folder translations/
